@@ -35,14 +35,14 @@ const ImageEdit = () => {
   return (
     <div className="w-full h-full">
       <div className="flex flex-row w-full h-full">
-        <div className="w-1/5">
+        <div className="w-[50px]">
           <Sidebar colorAdjustmentValues={colorAdjustmentValues} setColorAdjustmentValues={setColorAdjustmentValues} />
         </div>
-        <div className="w-4/5 h-full bg-[#fbf7f2] flex flex-col">
+        <div className="w-full h-full bg-[#fbf7f2] flex flex-col">
           <Header />
           <div className="flex flex-col justify-between h-full px-10 bg-[#fbf7f2] pt-10 selection:select-none">
             <div className="flex flex-row justify-between">
-              <div className="flex flex-row w-3/4 justify-between text-left cursor-pointer">
+              <div className="flex flex-row w-full justify-between text-left cursor-pointer">
                 <div className="w-1/4 text-[#053536] font-bold py-2 border-b-[1px] border-[#053536]">
                   1. Generate Images
                 </div>
@@ -56,7 +56,6 @@ const ImageEdit = () => {
                   4. Checkout
                 </div>
               </div>
-              <Slider />
             </div>
             <div className="flex flex-col w-full h-full justify-between">
               <div className="flex flex-row w-full h-full justify-between">
@@ -81,41 +80,6 @@ const ImageEdit = () => {
                           alt="generate_image"
                         />
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-row justify-center items-center gap-5 py-6">
-                    <div className="flex flex-row bg-white shadow-md items-center px-3 py-2 gap-2">
-                      <span>Actions:</span>
-                      <div className="p-2 cursor-pointer border-white hover:bg-[#F9F2E9] border hover:border-[#CAAC94]/50" onClick={() => { setCurrentIndex((currentIndex + 1) % editingImages.length) }}>
-                        <img src="images/image_edit/undo.png" alt="undo" />
-                      </div>
-                      <div className="p-2 cursor-pointer border-white hover:bg-[#F9F2E9] border hover:border-[#CAAC94]/50" onClick={() => { setCurrentIndex((currentIndex + 1) % editingImages.length) }}>
-                        <img src="images/image_edit/redo.png" alt="redo" />
-                      </div>
-                    </div>
-                    <div className="flex flex-row bg-white shadow-md items-center px-3 py-2 gap-2">
-                      <span>Compare:</span>
-                      <div className={`p-2 cursor-pointer ${compareStatus ? 'border bg-[#F9F2E9] border-[#CAAC94]/50' : 'hover:bg-[#F9F2E9] hover:border-[#CAAC94]/50'}`} onClick={() => setCompareStatus(true)}>
-                        <img src="images/image_edit/compare.png" alt="compare" />
-                      </div>
-                      <div className={`p-2 cursor-pointer ${!compareStatus ? 'border bg-[#F9F2E9] border-[#CAAC94]/50' : 'hover:bg-[#F9F2E9] hover:border-[#CAAC94]/50'}`} onClick={() => setCompareStatus(false)}>
-                        <img src="images/image_edit/compare2.png" alt="compare2" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col bg-[#f4ede3] w-1/6 px-4">
-                  <span className="font-bold text-[#276E70] py-4">LAYERS:</span>
-                  <div className="flex flex-col gap-3">
-                    <div className="border border-[#CAAC94]/50 flex flex-row items-center gap-3 w-full justify-center py-2 cursor-pointer">
-                      <img src="images/image_edit/add_layer.png" alt="add_layer" />
-                      <span>Add Layer</span>
-                    </div>
-                    <div className="w-full flex bg-white border-2 border-[#276E70] justify-center cursor-pointer">
-                      <img className="h-[100px] w-auto" src="images/generate_image/1.png" alt="generate_image" />
-                    </div>
-                    <div className="w-full flex bg-white border border-[#CAAC94]/50 justify-center cursor-pointer">
-                      <img className="w-full h-[100px]" src="images/image_edit/transparent.png" alt="transparent" />
                     </div>
                   </div>
                 </div>

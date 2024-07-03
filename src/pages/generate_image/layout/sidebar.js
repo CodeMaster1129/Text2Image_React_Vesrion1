@@ -6,8 +6,8 @@ import { useGenerateImageActions } from "../../../actions/generateActions";
 
 const Sidebar = () => {
   const [description, setDescription] = useState("");
-  const [size, setSize] = useState(1);
-  const [style, setStyle] = useState(1)
+  const [size, setSize] = useState(0);
+  const [style, setStyle] = useState("Classic painting")
   const [count, setCount] = useState(1);
 
   const { generateImage } = useGenerateImageActions();
