@@ -1,11 +1,6 @@
 import React from "react";
 
 const SelectBox = ({ resolution, isActive, toggleActive }) => {
-  // const [isActive, setIsActive] = useState(false);
-
-  // const toggleActive = () => {
-  //   setIsActive(!isActive);
-  // };
 
   return (
     <div>
@@ -19,7 +14,7 @@ const SelectBox = ({ resolution, isActive, toggleActive }) => {
         onClick={toggleActive}
       >
         <div className="flex flex-row justify-center">
-          <div className="py-2 text-center w-full">
+          <div className="p-2 text-center w-full">
             <span
               className={`${isActive ? "text-[#276E70]" : "text-[#485D5E]"}`}
             >

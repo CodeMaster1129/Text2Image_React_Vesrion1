@@ -16,11 +16,12 @@ export const useGenerateImageActions = () => {
         }
     };
 
-    const generateImage = async (description, size, count) => {
+    const generateImage = async (description, style, size, count) => {
         setLoading(true);
         try {
             const res = await axios.post(`${process.env.REACT_APP_API_URL}/generate_image/`, {
                 description,
+                style,
                 size,
                 count,
             });

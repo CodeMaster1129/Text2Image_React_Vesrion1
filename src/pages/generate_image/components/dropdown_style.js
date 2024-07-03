@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const DropdownStyle = ({ label, options }) => {
+const DropdownStyle = ({ setStyle }) => {
+    const options = ['Classic painting', 'Vaporwave', 'Gothic', 'Cybernetic, sci-fi', 'Can Gogh', 'Comic', 'Steampunk', 'Cyberpunk', 'Black & White', 'Realistic']
     const [isOpen, setIsOpen] = useState(false);
+    const [selected_label, setSelected_label] = useState(options[0])
     const dropdownRef = useRef(null);
 
     useEffect(() => {
@@ -23,7 +25,7 @@ const DropdownStyle = ({ label, options }) => {
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <img src='images/style_dropdown.png' alt='style_dropdown' />
-                <span className="text-gray-800">{label}</span>
+                <span className="text-gray-800">{selected_label}</span>
                 <span className="ml-2">{isOpen ? '▲' : '▼'}</span>
             </button>
             {isOpen && (
@@ -32,7 +34,8 @@ const DropdownStyle = ({ label, options }) => {
                         <li key={index}
                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                             onClick={() => {
-                                console.log(option);
+                                setSelected_label(option)
+                                setStyle(option)
                                 setIsOpen(false);
                             }}
                         >
@@ -45,13 +48,5 @@ const DropdownStyle = ({ label, options }) => {
     );
 };
 
-export default function App() {
-    return (
-        <div className="">
-            <DropdownStyle
-                label="Classic painting"
-                options={['Classic painting']}
-            />
-        </div>
-    );
-}
+export default DropdownStyle;
+

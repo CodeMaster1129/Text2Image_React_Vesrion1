@@ -1,6 +1,4 @@
 import DropdownStyle from "../components/dropdown_style";
-import DropdownModel from "../components/dropdown_model";
-import ToggleSwitch from "../components/toggleswitch";
 import Resolution from "../components/resolution";
 import Count from "../components/count";
 import { useState } from "react";
@@ -9,12 +7,13 @@ import { useGenerateImageActions } from "../../../actions/generateActions";
 const Sidebar = () => {
   const [description, setDescription] = useState("");
   const [size, setSize] = useState(1);
+  const [style, setStyle] = useState(1)
   const [count, setCount] = useState(1);
 
   const { generateImage } = useGenerateImageActions();
 
   const handleSubmit = () => {
-    generateImage(description, size, count);
+    generateImage(description, style, size, count);
   }
 
   return (
@@ -40,20 +39,6 @@ const Sidebar = () => {
             placeholder="Example description of your image"
             className="selection:select-all selection:bg-sky-300 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></textarea>
-          <div className="flex items-center mb-4">
-            <input
-              id="default-checkbox"
-              type="checkbox"
-              value=""
-              className="size-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            ></input>
-            <label
-              htmlFor="default-checkbox"
-              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Add Negative Prompt
-            </label>
-          </div>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-2 items-center">
@@ -63,21 +48,7 @@ const Sidebar = () => {
           <span className="text-[#485D5E] text-[14px] text-left">
             Experiment with different styles that can be applied to your image.
           </span>
-          <DropdownStyle />
-        </div>
-        <div className="flex flex-row justify-between border-b-2">
-          <div className="flex flex-row gap-2 items-center py-4">
-            <span className="text-[16px] font-bold">IMAGE TO IMAGE</span>
-            <img className="size-4" src="images/question_circle.png" alt="question_circle" />
-          </div>
-          <ToggleSwitch />
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-row gap-2 items-center py-4">
-            <span className="text-[16px] font-bold">AI MODEL</span>
-            <img className="size-4" src="images/question_circle.png" alt="question_circle" />
-          </div>
-          <DropdownModel />
+          <DropdownStyle setStyle={setStyle} />
         </div>
         <div className="flex flex-col">
           <div className="flex flex-row gap-2 items-center py-4">

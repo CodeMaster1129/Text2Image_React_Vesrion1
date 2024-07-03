@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import ImageCard from "./components/imagecard";
-import Slider from "./components/slider";
 import Header from "./layout/header";
 import Sidebar from "./layout/sidebar";
 import Loader from '../../components/ui/common/Loader';
@@ -38,7 +37,7 @@ const Generate_Image = () => {
           <Header />
           <div className="flex flex-col h-full px-10 bg-[#fbf7f2] pt-10">
             <div className="flex flex-row justify-between">
-              <div className="flex flex-row w-3/4 justify-between text-left cursor-pointer">
+              <div className="flex flex-row w-full justify-between text-left">
                 <div className="w-1/4 text-[#053536] font-bold py-2 border-b-[1px] border-[#053536]">
                   1. Generate Images
                 </div>
@@ -52,7 +51,6 @@ const Generate_Image = () => {
                   4. Checkout
                 </div>
               </div>
-              <Slider />
             </div>
             <div className="flex flex-col w-full h-full">
               {loading ? (
