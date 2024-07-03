@@ -1,0 +1,58 @@
+.message-left-container {
+    @apply flex justify-start relative text-lg;
+    .message{
+        @apply bg-[#19A5F3] bg-opacity-10 py-2 pl-10 pr-5 rounded-3xl;
+    }
+    .avatar{
+        @apply absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 w-[65px];
+    }
+   
+}
+.message-right-container {
+    @apply flex justify-end relative text-lg;
+    .message{
+        @apply bg-[#F36719] bg-opacity-10 py-2 pr-10 pl-5 rounded-3xl;
+    }
+    .avatar{
+        @apply absolute right-0 top-0 translate-x-1/2 -translate-y-1/2 w-[65px];
+    }
+}
+
+.p-card-container{
+    @apply relative w-[284px] h-[220px] min-w-[284px];
+    background-image: url("../../../../public/images/p-card-bg-1.png");
+    .star-wrapper{
+        @apply absolute left-5 top-5 flex gap-1 text-black items-center text-lg;
+    }
+    .price-wrapper{
+        @apply absolute right-5 top-5 text-black text-lg;
+    }
+    .logo{
+        @apply absolute w-[110px] top-4 left-1/2 -translate-x-1/2;
+    }
+    .btn-view{
+        @apply absolute w-[173px] bottom-8 left-1/2 -translate-x-1/2 text-xl bg-[#19A5F3]
+            cursor-pointer select-none rounded-3xl text-white py-2 px-4;
+        &:hover{
+            @apply bg-sky-600;
+        }
+    }
+}
+.product-list{
+    .sort-option-container{
+        @apply flex justify-end;
+        .sort-option-wrapper{
+            @apply flex gap-2 items-center border-[3px] border-stone-500 rounded-lg mr-10 pl-1;
+            .sort-option{
+                @apply text-lg outline-none font-bold;
+            }
+        }
+    }
+    .products-wrapper{
+        @apply flex justify-start gap-x-5 min-h-[240px] overflow-y-auto mt-5;
+    }
+    .btn-similar{
+        @apply bg-[#4BC583] flex gap-3 py-2 px-4 text-white text-xl items-center w-fit 
+            rounded-3xl cursor-pointer select-none mt-5;
+    }
+}
