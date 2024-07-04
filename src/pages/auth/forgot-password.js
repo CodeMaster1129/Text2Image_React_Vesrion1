@@ -4,13 +4,10 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useAuthStore } from '../../store';
 
-const Signin = () => {
-    const { logIn } = useAuthStore();
+const ForgotPassword = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const [checked, setChecked] = useState(false);
 
     return (
         <div className='w-screen h-screen 2xl:flex'>
@@ -18,7 +15,10 @@ const Signin = () => {
             <div className='w-[100%] 2xl:w-[40%] grow h-full justify-center items-center'>
                 <Formik initialValues={{ email: '', password: '' }} validationSchema={Yup.object().shape({
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    password: Yup.string().max(255).required('Password is required'),
+                    confirmPassword: Yup.string()
+                        .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
+                        .required('Confirm password is required')
                 })}
                     onSubmit={async (values, { setSubmitting }) => {
                         const formData = new FormData();
@@ -26,16 +26,15 @@ const Signin = () => {
                         formData.append('password', values.password);
                         await axios({
                             method: 'post',
-                            url: `${process.env.REACT_APP_API_URL}/auth/signin/`,
+                            url: `${process.env.REACT_APP_API_URL}/auth/forgot-password/`,
                             data: formData,
                             headers: { 'Content-Type': 'multipart/form-data' }
                         })
                             .then((res) => {
                                 if (res.status === 200) {
                                     setSubmitting(false);
-                                    logIn();
-                                    navigate("/dashboard");
-                                    toast.success("User logged in successfully");
+                                    navigate("/auth/signin");
+                                    toast.success("Password changed successfully");
                                 }
                             })
                             .catch((err) => {
@@ -48,8 +47,8 @@ const Signin = () => {
                             <div className='w-[100%] h-[100%] flex justify-center items-center'>
                                 <div className='w-[40%] 2xl:w-[80%] min-w-[400px] bg-white rounded-lg px-10 py-10 border shadow-md 2xl:border-none 2xl:shadow-none'>
                                     <div className='flex justify-between items-center'>
-                                        <span className='text-[#009585] text-2xl font-bold'>Sign in</span>
-                                        <Link to="/auth/signup"><span className='text-[#009585]'>Don't have an account?</span></Link>
+                                        <span className='text-[#009585] text-2xl font-bold'>Forgot Password</span>
+                                        <Link to="/auth/signin" className='hover:underline'><span className='text-[#009585]'>Back to Login</span></Link>
                                     </div>
                                     <div className='mt-8 flex flex-col items-start'>
                                         <span>Email Address</span>
@@ -66,7 +65,7 @@ const Signin = () => {
                                         <span>Password</span>
                                     </div>
                                     <div className='relative mt-2'>
-                                        <input id="password-login" placeholder='Enter your password' type={showPassword ? 'text' : 'password'} name="password" value={values.password} onBlur={handleBlur} onChange={handleChange} error={Boolean(touched.password)} className='w-full bg-transparent rounded-md border py-[10px] px-5 text-dark-6 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2' />
+                                        <input placeholder='Enter your password' type={showPassword ? 'text' : 'password'} name="password" value={values.password} onBlur={handleBlur} onChange={handleChange} error={Boolean(touched.password)} className='w-full bg-transparent rounded-md border py-[10px] px-5 text-dark-6 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2' />
                                         <div className='cursor-pointer absolute top-1/2 right-[5%] -translate-y-1/2' onClick={() => { setShowPassword(!showPassword) }}>{!showPassword ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}</div>
                                     </div>
                                     <div className='mt-2 flex flex-col items-start'>
@@ -76,21 +75,22 @@ const Signin = () => {
                                             </span>
                                         )}
                                     </div>
-                                    <div className='flex justify-between items-center mt-5'>
-                                        <div className='cursor-pointer' onClick={() => { setChecked(!checked) }}>
-                                            <input
-                                                checked={checked}
-                                                onChange={() => { setChecked(!checked) }}
-                                                type='checkbox'
-                                                className='mx-3'
-                                            />
-                                            <span>Keep me sign in</span>
-                                        </div>
-                                        <Link to="/auth/forgot-password" className='cursor-pointer hover:underline'><span>Forgot Password?</span></Link>
+                                    <div className='mt-5 flex flex-col items-start'>
+                                        <span>Confirm Password</span>
+                                    </div>
+                                    <div className='relative mt-2'>
+                                        <input placeholder='Confirm your password' type={showPassword ? 'text' : 'password'} name="confirmPassword" value={values.confirmPassword} onBlur={handleBlur} onChange={handleChange} error={Boolean(touched.confirmPassword)} className='w-full bg-transparent rounded-md border py-[10px] px-5 text-dark-6 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2' />
+                                    </div>
+                                    <div className='mt-2 flex flex-col items-start'>
+                                        {touched.confirmPassword && errors.confirmPassword && (
+                                            <span className='text-sm text-red-700'>
+                                                {errors.confirmPassword}
+                                            </span>
+                                        )}
                                     </div>
                                     <div className='w-full my-7'>
                                         <button disabled={isSubmitting} className='w-full bg-[#009788] rounded-md inline-flex items-center justify-center py-3 px-7 text-center text-base font-medium text-white hover:bg-body-color hover:border-body-color disabled:bg-gray-3 disabled:border-gray-3 disabled:text-dark-5' type='submit'>
-                                            Get Started
+                                            Reset Password
                                         </button>
                                     </div>
                                 </div>
@@ -104,4 +104,4 @@ const Signin = () => {
     )
 }
 
-export default Signin;
+export default ForgotPassword;

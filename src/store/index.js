@@ -24,8 +24,8 @@ const useGenerateImageStore = create((set) => ({
   setLoading: (value) => set({ loading: value }),
   generatedImages: [],
   setGeneratedImages: (images) => set({ generatedImages: images }),
-  editingImages: [],
-  setEditingImages: (images) => set({ editingImages: images })
+  originImage: {},
+  setOriginImage: (image) => set({ originImage: image })
 }));
 
 export { useAuthStore, useLayoutStore, useGenerateImageStore }; 

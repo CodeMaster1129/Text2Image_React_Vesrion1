@@ -10,14 +10,14 @@ import { useGenerateImageActions } from "../../actions/generateActions";
 
 const Generate_Image = () => {
   const navigate = useNavigate();
-  const { generatedImages, editingImages, loading } = useGenerateImageStore();
+  const { generatedImages, originImage, loading } = useGenerateImageStore();
   const { getAllGeneratedImages } = useGenerateImageActions();
 
   const handleEditImageClick = () => {
-    if (editingImages.length <= 0) {
+    if (Object.keys(originImage).length === 0) {
       toast.error('You have to select images');
     } else {
-      localStorage.setItem("editing_images", JSON.stringify(editingImages));
+      localStorage.setItem("originImage", JSON.stringify(originImage));
       navigate("/image_edit");
     }
   };
@@ -30,12 +30,12 @@ const Generate_Image = () => {
   return (
     <div className="w-full h-full">
       <div className="flex flex-row w-full h-full">
-        <div className="w-1/5">
+        <div className="w-1/5 h-full bg-[#f4ede3] min-w-[380px]">
           <Sidebar />
         </div>
         <div className="w-4/5 h-full bg-[#fbf7f2] flex flex-col">
           <Header />
-          <div className="flex flex-col h-full px-10 bg-[#fbf7f2] pt-10">
+          <div className={`flex flex-col px-10 h-full bg-[#fbf7f2] pt-10 overflow-hidden`}>
             <div className="flex flex-row justify-between">
               <div className="flex flex-row w-full justify-between text-left">
                 <div className="w-1/4 text-[#053536] font-bold py-2 border-b-[1px] border-[#053536]">
@@ -52,11 +52,11 @@ const Generate_Image = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col w-full h-full">
+            <div className={`overflow-auto grow`}>
               {loading ? (
                 <Loader />
               ) : (
-                <div className="flex flex-row flex-wrap gap-x-[20px] gap-y-[16px] pt-5">
+                <div className="flex flex-row flex-wrap gap-x-[15px] gap-y-[16px] pt-5">
                   {generatedImages && generatedImages.map((image, index) => (
                     <ImageCard key={index} image={image} alt={image.description} />
                   ))}

@@ -7,7 +7,7 @@ export const useGenerateImageActions = () => {
     const getAllGeneratedImages = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://170.130.55.64:8000/api/generated_images/`);
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/generated_images/`);
             setGeneratedImages(res.data.images);
         } catch (err) {
             console.error(err);
@@ -18,20 +18,13 @@ export const useGenerateImageActions = () => {
 
     const generateImage = async (description, style, size, count) => {
         setLoading(true);
-        console.log(description, style, size, count)
         try {
-            const res = await axios.post(`http://170.130.55.64:8000/api/generate_image/`, {
+            const res = await axios.post(`${process.env.REACT_APP_API_URL}/generate_image/`, {
                 description,
                 style,
                 size,
                 count,
             });
-            // const res = await axios.post(`${process.env.REACT_APP_API_URL}/generate_image/`, {
-            //     description,
-            //     style,
-            //     size,
-            //     count,
-            // });
             if (res.status === 200) {
                 await getAllGeneratedImages();
             }
@@ -42,5 +35,20 @@ export const useGenerateImageActions = () => {
         }
     };
 
-    return { getAllGeneratedImages, generateImage };
+    const deleteImage = async (id) => {
+        setLoading(true);
+        try {
+            const res = await axios.delete(`${process.env.REACT_APP_API_URL}/delete_image/`, {
+                params: { id }
+            });
+            if (res.status === 200) {
+                await getAllGeneratedImages();
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    }
+    return { getAllGeneratedImages, generateImage, deleteImage };
 };

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 // import ImageCard from "./components/imagecard";
-import Slider from "./components/slider";
+// import Slider from "./components/slider";
 import Header from "./layout/header";
 import Sidebar from "./layout/sidebar";
+import Loader from "../../components/ui/common/Loader";
 import { useNavigate } from "react-router-dom";
 import { useGenerateImageStore } from "../../store";
 
@@ -12,25 +14,34 @@ const ImageEdit = () => {
     temperature: 0,
     tint: 0
   });
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [compareStatus, setCompareStatus] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const { editingImages, setEditingImages } = useGenerateImageStore();
+  const { originImage, setOriginImage } = useGenerateImageStore();
+  const [enhancedImageUrl, setEnhancedImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedEditingImages = localStorage.getItem("editing_images");
-    if (savedEditingImages) {
-      setEditingImages(JSON.parse(savedEditingImages));
+    const storedImage = JSON.parse(localStorage.getItem('originImage'));
+    if (Object.keys(storedImage).length > 0) {
+      setOriginImage(storedImage);
+      setLoading(true);
+      const getEnhancedImage = async () => {
+        axios.post(`${process.env.REACT_APP_API_URL}/edit_image/`, {
+          description: storedImage.description,
+          image_url: storedImage.image_url,
+        })
+          .then((res) => {
+            if (res.status === 200) {
+              setEnhancedImageUrl(res.data.image_url);
+              setLoading(false);
+            }
+          })
+          .catch(err => console.error(err))
+      }
+
+      getEnhancedImage();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (editingImages && editingImages.length > 0) {
-      setSelectedImage(editingImages[currentIndex]);
-    }
-  }, [editingImages, currentIndex]);
 
   return (
     <div className="w-full h-full">
@@ -38,9 +49,9 @@ const ImageEdit = () => {
         <div className="w-[50px]">
           <Sidebar colorAdjustmentValues={colorAdjustmentValues} setColorAdjustmentValues={setColorAdjustmentValues} />
         </div>
-        <div className="w-full h-full bg-[#fbf7f2] flex flex-col">
+        <div className="w-full h-[100vh] bg-[#fbf7f2] flex flex-col">
           <Header />
-          <div className="flex flex-col justify-between h-full px-10 bg-[#fbf7f2] pt-10 selection:select-none">
+          <div className="flex flex-col grow justify-between px-10 bg-[#fbf7f2] pt-10 selection:select-none">
             <div className="flex flex-row justify-between">
               <div className="flex flex-row w-full justify-between text-left cursor-pointer">
                 <div className="w-1/4 text-[#053536] font-bold py-2 border-b-[1px] border-[#053536]">
@@ -57,28 +68,34 @@ const ImageEdit = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col w-full h-full justify-between">
-              <div className="flex flex-row w-full h-full justify-between">
-                <div className="flex flex-col w-4/5 h-full">
-                  <div className="flex flex-row grow gap-5 px-10">
-                    <div className="flex flex-col w-full h-full gap-5 pt-10">
-                      <span>Before</span>
-                      <div className="grow">
-                        {selectedImage && <img
-                          className="w-auto h-full"
-                          src={selectedImage.image_url}
-                          alt="generate_image"
-                        />}
+            <div className="flex flex-col w-full grow justify-between">
+              <div className="flex lg:flex-col w-full h-full justify-between">
+                <div className="flex flex-row grow gap-5 px-10">
+                  <div className="flex flex-col w-full h-full gap-5 pt-10">
+                    <span>Before</span>
+                    <div className="flex justify-center items-center grow">
+                      <div className="relative w-full h-full">
+                        {originImage && (
+                          <img
+                            src={originImage.image_url}
+                            alt="generate_image"
+                            className="absolute top-0 left-0 max-w-full max-h-full m-auto object-contain"
+                            style={{ width: 'min(100%, 100vh)', height: 'min(100%, 100vh)' }}
+                          />
+                        )}
                       </div>
                     </div>
-                    <div className="flex flex-col w-full gap-5 pt-10">
-                      <span>After</span>
-                      <div className="grow">
-                        <img
-                          className="w-auto h-full"
-                          src={editingImages.image_url}
+                  </div>
+                  <div className="flex flex-col w-full h-full gap-5 pt-10">
+                    <span>After</span>
+                    <div className="flex justify-center items-center grow">
+                      <div className="relative w-full h-full">
+                        {loading ? <Loader /> : <img
+                          src={enhancedImageUrl}
                           alt="generate_image"
-                        />
+                          className="absolute top-0 left-0 max-w-full max-h-full m-auto object-contain"
+                          style={{ width: 'min(100%, 100vh)', height: 'min(100%, 100vh)' }}
+                        />}
                       </div>
                     </div>
                   </div>
@@ -95,8 +112,8 @@ const ImageEdit = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

@@ -27,7 +27,7 @@ const Header = () => {
   //       setShowDropdown(false);
   //     }
   //   };
-  
+
   //   document.addEventListener("mousedown", handleClickOutside);
   //   return () => {
   //     document.removeEventListener("mousedown", handleClickOutside);
@@ -61,7 +61,7 @@ const Header = () => {
             {showDropdown && (
               <div
                 ref={dropdownRef}
-                className="absolute mt-12 right-10 top-4 bg-white shadow-lg w-48 py-3 z-10"
+                className="absolute mt-12 right-10 top-4 bg-white shadow-lg w-48 py-3 z-20"
               >
                 <div className="flex flex-row justify-start items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
                   <img className="h-full w-auto" src="images/profile_.png" alt="profile" />

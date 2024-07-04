@@ -14,11 +14,14 @@ const Sidebar = () => {
 
   const handleSubmit = () => {
     generateImage(description, style, size, count);
+    setDescription("");
+    setSize(0);
+    setCount(1);
   }
 
   return (
     <div className="flex flex-col w-full selection:select-none">
-      <div className="bg-[#f4ede3] flex flex-col px-4 gap-2 h-[90vh] overflow-auto">
+      <div className="flex flex-col px-4 gap-2">
         <span className="text-[28px] text-left font-bold px-4 py-8">
           PAGHEERA
         </span>
